@@ -1,14 +1,13 @@
 import './right-panel.css';
+import Chart from './chart/chart';
 
 function RightPanel() {
-  return (
+
+    return (
     <div className='right-div'>
-          second panel with chart and log
+          <Chart></Chart>
           <div className='border'>
-          b
-          </div>
-          <div className='border'>
-          c
+              logger
           </div>
         </div>
 
