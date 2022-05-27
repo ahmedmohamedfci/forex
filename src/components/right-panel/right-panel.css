@@ -7,3 +7,27 @@
     flex-direction: column;
     justify-content: start;
   }
+
+  .buy-sell-div {
+    width: 120px;
+    margin-bottom: 20px;
+  }
+  
+  .buy-sell-div button{
+    width: 60px;
+    border-radius: 10px;
+  }
+
+  .buy-button{
+    background-color: greenyellow;
+  }
+
+  .sell-button{
+    background-color: orange;
+  }
+
+  select{
+    background-color: #282c34;
+    color: white;
+    width: 120px;
+  }
