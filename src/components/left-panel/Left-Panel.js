@@ -40,7 +40,7 @@ function LeftPanel(props) {
     // renderer
     return (
         <div className='left-div'>
-
+            <div className='barclays-logo'></div>
             <div className='all-symbols'>
                 EUR symbols
             </div>
