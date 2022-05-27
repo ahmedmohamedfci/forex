@@ -7,6 +7,7 @@ function LeftPanel(props) {
     // hooks
     let [symbols, setSymbols] = useState([]);
     let [searchText, setSearchText] = useState('');
+    let didSetFirstPrice = false;
 
     useEffect(()=>{
         backendCall();
@@ -24,16 +25,21 @@ function LeftPanel(props) {
 
     let openChartFor = (symbol) => {
         props.setsymbolCurrency(symbol.name);
+        props.setPairPrice(symbol.buy);
     }
 
     
     let backendCall = ()=>{
         httpService.getLatestSymbols((symbols)=>{
-            setSymbols(
-                Object.keys(symbols.rates).map(key => ({name:key, 
-                    sell: symbols.rates[key], 
-                    buy: symbols.rates[key]}))
-            );
+            let result = Object.keys(symbols.rates).map(key => ({name:key, 
+                sell: symbols.rates[key], 
+                buy: symbols.rates[key]}));
+
+            if(!didSetFirstPrice){
+                didSetFirstPrice = true;
+                props.setPairPrice(result.filter(x => x.name == 'USD')[0].buy);
+            }
+            setSymbols(result);
         });
     }
 
@@ -58,10 +64,10 @@ function LeftPanel(props) {
                     </thead>
                     <tbody>
                         {getSymbols().map(symb => 
-                                <tr onClick={()=> openChartFor(symb)}>
-                                    <td>{symb.name}</td>
-                                    <td>{symb.buy}</td>
-                                    <td>{symb.sell}</td>
+                                <tr key={'tr-'+symb.name} onClick={()=> openChartFor(symb)}>
+                                    <td key={'td-'+symb.name}>{symb.name}</td>
+                                    <td key={'td-buy-'+symb.buy}>{symb.buy}</td>
+                                    <td key={'td-sell-'+symb.sell}>{symb.sell}</td>
                                 </tr>
                             )}
                     </tbody>

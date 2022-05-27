@@ -6,17 +6,20 @@ import RightPanel from './components/right-panel/right-panel';
 function App() {
   let [baseCurrency, setBaseCurrency] = useState('EUR');
   let [symbolCurrency, setsymbolCurrency] = useState('USD');
+  let [pairPrice, setPairPrice] = useState(0);
   
   return (
     <div className="App">
       <LeftPanel baseCurrency={baseCurrency} 
         symbolCurrency = {symbolCurrency} 
         setBaseCurrency= {setBaseCurrency} 
-        setsymbolCurrency = {setsymbolCurrency}/>
+        setsymbolCurrency = {setsymbolCurrency}
+        setPairPrice={setPairPrice}/>
       <RightPanel baseCurrency={baseCurrency} 
         symbolCurrency = {symbolCurrency} 
         setBaseCurrency= {setBaseCurrency} 
-        setsymbolCurrency = {setsymbolCurrency} />
+        setsymbolCurrency = {setsymbolCurrency} 
+        pairPrice={pairPrice}/>
     </div>
   );
 }

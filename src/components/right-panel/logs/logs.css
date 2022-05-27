@@ -1,0 +1,11 @@
+.logger-table {
+    margin-top: 20px;
+}
+
+.logger-table tr{
+    cursor: default;
+}
+
+.close-deal{
+    cursor: pointer;
+}
