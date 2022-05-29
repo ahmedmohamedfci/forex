@@ -1,5 +1,19 @@
 
 ### Forex trading project
+### normal running commands:
+1- open the project in cmd 
+2- run: `npm i`
+3- run: `npm start --open`
+the browser should automatically open on http://localhost:3000
+
+### in case of dependency issues, or collision with the port 3000:
+1- run `npm i`
+2- run `npm run build`
+3- run `npm install -g serve`
+4- run `serve -s build`
+5- open your browser on http://localhost:3000
+this would run a seperate static server away from the normal react-script server, running the production version of the code.
+
 ### please run `npm i` before trying any of the below scripts
 
 ## Available Scripts
