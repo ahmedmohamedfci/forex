@@ -10,7 +10,7 @@ the browser should automatically open on http://localhost:3000 \
 1- run `npm i` \
 2- run `npm run build` \
 3- run `npm install -g serve` \
-4- run `serve -s build` \
+4- run `serve -s build` or `serve -s build -l 4000` to change the port to 4000\
 5- open your browser on http://localhost:3000 \
 this would run a seperate static server away from the normal react-script server, running the production version of the code.\
 
