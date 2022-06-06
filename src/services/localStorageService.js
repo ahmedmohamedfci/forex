@@ -1,28 +1,28 @@
 
-export default class LocalStorageService{
+export default class LocalStorageService {
 
-    addTrade(trade){
+    addTrade(trade) {
         trade.id = Date.now();
         let trades = this.getTrades();
-        if(!trades) trades = []
+        if (!trades) trades = []
         this.setTrades([...trades, trade]);
         return trade;
     }
 
-    removeTrade(trade){
+    removeTrade(trade) {
         let trades = this.getTrades();
         trades = trades.filter(hisTrade => hisTrade.id !== trade.id);
         this.setTrades(trades);
         return trade;
     }
 
-    setTrades(trades){
+    setTrades(trades) {
         localStorage.setItem('trades', JSON.stringify(trades));
     }
 
-    getTrades(){
+    getTrades() {
         let trades = localStorage.getItem('trades');
-        if(!trades) return []
+        if (!trades) return []
         return JSON.parse(trades);
     }
 

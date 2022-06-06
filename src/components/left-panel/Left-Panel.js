@@ -1,20 +1,25 @@
 import './left-panel.css';
-import React, { useState, useEffect } from 'react';
-import HTTPService from '../../services/httpService';
+import React, { useState, useEffect, useRef } from 'react';
+import HTTPService from '../../services/HttpService';
 
 function LeftPanel(props) {
-    let httpService = new HTTPService();
     // hooks
     let [symbols, setSymbols] = useState([]);
     let [searchText, setSearchText] = useState('');
-    let didSetFirstPrice = false;
-
+    
     useEffect(()=>{
-        backendCall();
-        setInterval(()=>{
+        backendCall()
+        .then((result)=>{
+            // in the initial run, set the pair to be Eur_USD
+            props.setPairPrice(result.filter(x => x.name == 'USD')[0].buy);
+        });
+        let intervalHandler = setInterval(()=>{
             backendCall();        
         }, 10000);
         
+        return ()=>{
+            clearInterval(intervalHandler);
+        }
     }, []);
 
     // methods
@@ -30,16 +35,12 @@ function LeftPanel(props) {
 
     
     let backendCall = ()=>{
-        httpService.getLatestSymbols((symbols)=>{
+        return HTTPService.getLatestSymbols().then((symbols)=>{
             let result = Object.keys(symbols.rates).map(key => ({name:key, 
                 sell: symbols.rates[key], 
                 buy: symbols.rates[key]}));
-
-            if(!didSetFirstPrice){
-                didSetFirstPrice = true;
-                props.setPairPrice(result.filter(x => x.name == 'USD')[0].buy);
-            }
             setSymbols(result);
+            return result
         });
     }
 
@@ -65,9 +66,9 @@ function LeftPanel(props) {
                     <tbody>
                         {getSymbols().map(symb => 
                                 <tr key={'tr-'+symb.name} onClick={()=> openChartFor(symb)}>
-                                    <td key={'td-'+symb.name}>{symb.name}</td>
-                                    <td key={'td-buy-'+symb.buy}>{symb.buy}</td>
-                                    <td key={'td-sell-'+symb.sell}>{symb.sell}</td>
+                                    <td>{symb.name}</td>
+                                    <td>{symb.buy}</td>
+                                    <td>{symb.sell}</td>
                                 </tr>
                             )}
                     </tbody>

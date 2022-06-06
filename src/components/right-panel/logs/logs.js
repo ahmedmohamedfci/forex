@@ -1,17 +1,21 @@
 import './logs.css';
-import { useEffect, useState } from 'react';
-import LocalStorageService from '../../../services/localStorageService';
+import { useEffect, useRef } from 'react';
+import LocalStorageService from '../../../services/LocalStorageService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 function Logger(props) {
 
-    let localStorageService = new LocalStorageService();
-
-    function removeThisTrade(trade){
-        localStorageService.removeTrade(trade);
-        props.setTrades(localStorageService.getTrades());
+    function removeThisTrade(trade, localStorage){
+        localStorage.removeTrade(trade);
+        props.setTrades(localStorage.getTrades());
     }
+    
+    let localStorageService = useRef();
+
+    useEffect(()=>{
+        localStorageService.current = new LocalStorageService();
+    },[])
 
     return (
         <div>
@@ -40,7 +44,7 @@ function Logger(props) {
                                     <td key={trade.id + '-price'}>{trade.entryPrice}</td>
                                     <td key={trade.id + '-action'}>
                                         <div className='close-deal' title='Close Position' key={trade.id + '-action-div'}>
-                                            <FontAwesomeIcon onClick={()=>removeThisTrade(trade)} icon={faXmark} key={trade.id + '-action-fa'}/>
+                                            <FontAwesomeIcon onClick={()=>removeThisTrade(trade,localStorageService.current)} icon={faXmark} key={trade.id + '-action-fa'}/>
                                         </div>
                                     </td>
                                 </tr>

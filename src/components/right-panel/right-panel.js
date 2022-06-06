@@ -1,19 +1,21 @@
 import './right-panel.css';
 import Chart from './chart/chart';
 import Logger from './logs/logs';
-import { useEffect, useState } from 'react';
-import LocalStorageService from '../../services/localStorageService';
+import { useEffect, useState, useRef } from 'react';
+import LocalStorageService from '../../services/LocalStorageService';
 import * as moment from 'moment'
 
 function RightPanel(props) {
     let _moment = moment;
     let [selectedLot, setSelectedLot] = useState(1000);
     let [trades, setTrades] = useState([]);
-    let localStorageService = new LocalStorageService();
+    // we can prevent the reinit of the variable by using useRef and defining it only once in a useEffect
+    let localStorageService = useRef();
 
     // on initial load, get saved trades from local storage
     useEffect(()=>{
-      setTrades(localStorageService.getTrades());
+      localStorageService.current = new LocalStorageService();
+      setTrades(localStorageService.current.getTrades());
     }, []);
 
     function selectedChanged(event){
@@ -21,7 +23,7 @@ function RightPanel(props) {
     }
 
     function makeAtrade(direction){
-      let trade = localStorageService.addTrade({
+      let trade = localStorageService.current.addTrade({
         date: _moment().format('DD-MM hh:mm:ss'),
         symbol: props.symbolCurrency,
         base: props.baseCurrency,
